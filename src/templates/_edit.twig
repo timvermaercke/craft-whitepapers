@@ -1,0 +1,107 @@
+{% extends '_layouts/cp.twig' %}
+{% import '_includes/forms.twig' as forms %}
+
+{% set crumbs = [
+  {
+    label: 'whitepapers'|t('whitepapers'),
+    url: url('whitepapers'),
+  },
+] %}
+
+{% set title = 'new_whitepaper'|t('whitepapers') %}
+{% set formActions = [
+  {
+    label: 'save'|t('whitepapers'),
+    retainScroll: true,
+    shortcut: true,
+  },
+] %}
+
+{% if whitepaper and whitepaper.id %}
+  {% set title = 'edit_whitepaper'|t('whitepapers', { title: whitepaper.title }) %}
+  {% set formActions = formActions|merge([{
+    label: 'delete'|t('whitepapers'),
+    confirm: 'are_you_sure_to_delete'|t('whitepapers'),
+    destructive: true,
+    action: 'whitepapers/admin/delete'
+  }]) %}
+{% endif %}
+
+{% set fullPageForm = true %}
+
+{% block content %}
+
+  <h2>{{ 'whitepaper_info'|t('whitepapers') }}</h2>
+
+  {{ actionInput('whitepapers/admin/save') }}
+  {{ redirectInput('whitepapers') }}
+
+  {{ forms.hidden({name: 'whitepaperId', value: whitepaper.id }) }}
+
+  {{ forms.textField({
+        id: 'title',
+        name: 'title',
+        label: 'title'|t('whitepapers'),
+        value: whitepaper.title,
+        errors: whitepaper.getErrors('title')
+    }) }}
+
+  <p style="font-weight: bold;">
+    {{ 'asset'|t('whitepapers') }}
+  </p>
+  {% set elements = [] %}
+  {% if whitepaper.assetId %}
+    {% set elements = [craft.assets().id(whitepaper.assetId).one()] %}
+  {% endif %}
+
+  {{ forms.elementSelect({
+        name: 'assetId',
+        elementType: 'craft\\elements\\Asset',
+        single: true,
+        elements: elements
+    }) }}
+  {% if whitepaper.getErrors('assetId') %}
+    <ul class="errors">
+      <li>
+        {{ 'pick_an_asset'|t('whitepapers') }}
+      </li>
+    </ul>
+  {% endif %}
+
+  {% if whitepaper.id %}
+    <h2 style="margin-top: 2rem;">
+      {{ 'downloads'|t('whitepapers') }}
+    </h2>
+    {% if whitepaper.downloads %}
+      <table class="data fullwidth">
+        <thead>
+          <tr>
+            <th>
+              {{ 'email'|t('whitepapers') }}
+            </th>
+            <th>
+              {{ 'downloaded_on'|t('whitepapers') }}
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for download in whitepaper.downloads %}
+            <tr>
+              <td>{{ download.email }}</td>
+              <td>{{ download.downloadedOn }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <p>
+        <a href="/admin/whitepapers/{{ whitepaper.id }}/export" class="btn">
+          {{ 'export_to_csv'|t('whitepapers') }}
+        </a>
+      </p>
+    {% else %}
+      <p>
+        {{ 'no_downloads_yet'|t('whitepapers') }}
+      </p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

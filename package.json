@@ -1,0 +1,12 @@
+{
+  "name": "craft-whitepapers",
+  "version": "1.0.0",
+  "scripts": {
+    "release": "standard-version"
+  },
+  "author": "Tim Vermaercke",
+  "license": "Craft",
+  "devDependencies": {
+    "standard-version": "9.5.0"
+  }
+}

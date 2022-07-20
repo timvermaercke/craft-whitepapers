@@ -1,0 +1,51 @@
+{% extends "_layouts/cp.twig" %}
+{% set title = 'whitepapers'|t('whitepapers') %}
+
+{% set crumbs = [
+  {
+    label: title,
+    url: url('whitepapers'),
+  },
+] %}
+
+{% block actionButton %}
+  <a href="/admin/whitepapers/new" class="btn">{{ 'new_whitepaper'|t('whitepapers') }}</a>
+{% endblock %}
+
+{% block content %}
+  {% set whitepapers = craft.whitepapers.findAll() %}
+
+  {% if whitepapers|length > 0 %}
+
+    <table class="data fullwidth">
+      <thead>
+        <tr>
+          <th>
+            {{ 'title'|t('whitepapers') }}
+          </th>
+          <th>
+            {{ 'amount_of_downloads'|t('whitepapers') }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for whitepaper in whitepapers %}
+          <tr>
+            <td>
+              <a href="/admin/whitepapers/{{ whitepaper.id }}">
+                {{ whitepaper.title }}
+              </a>
+            </td>
+            <td>
+              {{ whitepaper.downloads|length }}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>
+      {{ 'no_whitepapers_found'|t('whitepapers') }}
+    </p>
+  {% endif %}
+{% endblock %}

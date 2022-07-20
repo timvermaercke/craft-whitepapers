@@ -1,0 +1,35 @@
+{
+  "name": "timvermaercke/craft-whitepapers",
+  "description": "Let users download whitepapers (or any other secure file) after they drop their email address",
+  "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "whitepapers"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Tim Vermaercke",
+      "homepage": "https://timvermaercke.be"
+    }
+  ],
+  "require": {
+    "craftcms/cms": "^4.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "timvermaercke\\whitepapers\\": "src/"
+    }
+  },
+  "extra": {
+    "name": "Whitepapers",
+    "handle": "whitepapers",
+    "developer": "Tim Vermaercke",
+    "developerUrl": "https://timvermaercke.be",
+    "class": "timvermaercke\\whitepapers\\Whitepapers"
+  }
+}
