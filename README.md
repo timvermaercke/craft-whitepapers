@@ -78,6 +78,6 @@ Fill out the globals set:
 Use the value in your templates:
 
 ```twig
-{# will output the selected whitepaper id %}
+{# will output the selected whitepaper id #}
 {{ settings.fieldWhitepaper }}
 ```
